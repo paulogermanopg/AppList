@@ -22,11 +22,13 @@ export default class TaskList extends Component {
     }
     //acava aqui
     render() {
+        //isso também
         if (this.state.loading) {
             return (
               <View></View>
             );
         }
+        //aqui
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
         return (
             <View style={styles.container}>
@@ -38,7 +40,7 @@ export default class TaskList extends Component {
                 </ImageBackground>
                 <View style={styles.taskList}>
                     <Task desc='Comprar Jogo' estimateAt={new Date()} doneAt={null} />
-                    <Task desc='Comprar Jogo' estimateAt={new Date()} doneAt={null} />
+                    <Task desc='Comprar Jogo' estimateAt={new Date()} doneAt={new Date()} />
                 </View>
 
             </View>
