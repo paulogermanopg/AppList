@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, ImageBackground, StyleSheet } from 'react-native'
 
+import Task from '../components/Task'
 import CommonStyles from '../commonStyles'
 import * as Font from 'expo-font'
 import todayImage from '../../assets/imgs/today.jpg'
@@ -36,13 +37,10 @@ export default class TaskList extends Component {
                     </View>
                 </ImageBackground>
                 <View style={styles.taskList}>
-                    <Text>Tarefa #01</Text>
-                    <Text>Tarefa #02</Text>
-                    <Text>Tarefa #03</Text>
-                    <Text>Tarefa #04</Text>
-                    <Text>Tarefa #05</Text>
+                    <Task desc='Comprar Jogo' estimateAt={new Date()} doneAt={null} />
+                    <Task desc='Comprar Jogo' estimateAt={new Date()} doneAt={null} />
                 </View>
-                
+
             </View>
         )
     }
