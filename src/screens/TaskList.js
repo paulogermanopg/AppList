@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, ImageBackground, StyleSheet } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, FlatList } from 'react-native'
 
 import Task from '../components/Task'
 import CommonStyles from '../commonStyles'
@@ -12,6 +12,17 @@ import 'moment/locale/pt-br'
 export default class TaskList extends Component {
     //Usar font personalizada no expo = importar import * as Font from 'expo-font'
     state = {
+        tasks: [{
+            id: Math.random(),
+            desc: 'compra um livro',
+            estimateAt: new Date(),
+            doneAt: new Date(),
+        }, {
+            id: Math.random(),
+            desc: 'ler um livro',
+            estimateAt: new Date(),
+            doneAt: null,
+        }, ],
         loading: true
     }
     async componentDidMount() {
@@ -21,6 +32,18 @@ export default class TaskList extends Component {
         this.setState({ loading: false })
     }
     //acava aqui
+
+    toggleTask = taskId => {
+        const tasks = [...this.state.tasks]
+        tasks.forEach(task => {
+            if(task.id === taskId) {
+                task.doneAt = task.doneAt ? null : new Date()
+            }
+        })
+
+        this.setState({ tasks })
+    }
+
     render() {
         //isso também
         if (this.state.loading) {
@@ -39,8 +62,9 @@ export default class TaskList extends Component {
                     </View>
                 </ImageBackground>
                 <View style={styles.taskList}>
-                    <Task desc='Comprar Jogo' estimateAt={new Date()} doneAt={null} />
-                    <Task desc='Comprar Jogo' estimateAt={new Date()} doneAt={new Date()} />
+                    <FlatList data={this.state.tasks}
+                        keyExtractor={item => `${item.id}`}
+                        renderItem={({item}) => <Task {...item} toggleTask={this.toggleTask} />} />
                 </View>
 
             </View>
