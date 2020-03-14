@@ -15,6 +15,7 @@ export default class TaskList extends Component {
     //Usar font personalizada no expo = importar import * as Font from 'expo-font'
     state = {
         showDoneTasks: true,
+        visibleeTask: [],
         tasks: [{
             id: Math.random(),
             desc: 'compra um livro',
@@ -33,11 +34,28 @@ export default class TaskList extends Component {
           'Lato': require('../../assets/fonts/TravelingTypewriter.ttf'),
         })
         this.setState({ loading: false })
+        this.filterTasks()
     }
-    //acava aqui
+    //acaba aqui
+
+    // componentDidMount = () => {
+    //     this.filterTasks()
+    // }
 
     toggleFilter = () => {
-        this.setState({ showDoneTasks: !this.state.showDoneTasks })
+        this.setState({ showDoneTasks: !this.state.showDoneTasks }, this.filterTasks)
+    }
+
+    filterTasks = () => {
+        let visibleeTask = null
+        if (this.state.showDoneTasks) {
+            visibleeTask = [...this.state.tasks]
+        } else {
+            const pedding = task => task.doneAt === null 
+            visibleeTask = this.state.tasks.filter(pedding)
+        }
+
+        this.setState({ visibleeTask })
     }
 
     toggleTask = taskId => {
@@ -48,7 +66,7 @@ export default class TaskList extends Component {
             }
         })
 
-        this.setState({ tasks })
+        this.setState({ tasks }, this.filterTasks)
     }
 
     render() {
@@ -75,7 +93,7 @@ export default class TaskList extends Component {
                     </View>
                 </ImageBackground>
                 <View style={styles.taskList}>
-                    <FlatList data={this.state.tasks}
+                    <FlatList data={this.state.visibleeTask}
                         keyExtractor={item => `${item.id}`}
                         renderItem={({item}) => <Task {...item} toggleTask={this.toggleTask} />} />
                 </View>
@@ -117,6 +135,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginHorizontal: 20,
         justifyContent: 'flex-end',
-        marginTop: Platform.OS === 'ios' ? 40 : 30,
+        marginTop: Platform.OS === 'ios' ? 40 : 40,
     }
 })
