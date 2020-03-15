@@ -3,7 +3,16 @@ import { Text, View, Modal, StyleSheet, TouchableWithoutFeedback, TouchableOpaci
 
 import CommonStyles from '../commonStyles'
 
+const initialState = {
+    desc: ''
+}
+
 export default class AddTaks extends Component {
+
+    state = {
+        ...initialState
+    }
+
     render() {
         return (
             <Modal transparent={true} visible={this.props.isVisible} onRequestClose={this.props.onCancel}
@@ -15,9 +24,11 @@ export default class AddTaks extends Component {
                 </TouchableWithoutFeedback>
                 <View style={styles.container}>
                     <Text style={styles.header}>Nova Tarefa</Text>
-                    <TextInput style={styles.input} />
+                    <TextInput style={styles.input} placeholder=' Informe a descrição'
+                        onChangeText={desc => this.setState({ desc })} 
+                        value={this.state.desc} />
                     <View style={styles.buttons}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={this.props.onCancel}>
                             <Text style={styles.button}>Cancelar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
@@ -37,7 +48,6 @@ export default class AddTaks extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#FFF',
     },
     background: {
@@ -57,6 +67,13 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     input: {
+        fontFamily: CommonStyles.fontfamily,
+        height: 40,
+        margin: 15,
+        backgroundColor: '#FFF',
+        borderWidth: 1,
+        borderColor: '#E3E3E3',
+        borderRadius: 6,
 
     },
     button: {
