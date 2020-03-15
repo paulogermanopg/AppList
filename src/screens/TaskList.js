@@ -5,6 +5,7 @@ import Task from '../components/Task'
 import CommonStyles from '../commonStyles'
 import * as Font from 'expo-font'
 import todayImage from '../../assets/imgs/today.jpg'
+import AddTask from './AddTask'
 
 import moment from 'moment'
 import 'moment/locale/pt-br'
@@ -15,6 +16,7 @@ export default class TaskList extends Component {
     //Usar font personalizada no expo = importar import * as Font from 'expo-font'
     state = {
         showDoneTasks: true,
+        showAddTask: true,
         visibleeTask: [],
         tasks: [{
             id: Math.random(),
@@ -80,6 +82,7 @@ export default class TaskList extends Component {
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
         return (
             <View style={styles.container}>
+                <AddTask isVisible={this.state.showAddTask} onCancel={() => this.setState({ showAddTask: false })} />
                 <ImageBackground source={todayImage} style={styles.background}>
                     <View style={styles.iconBar}>
                         <TouchableOpacity onPress={this.toggleFilter}>
