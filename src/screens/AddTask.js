@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Modal, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import { Text, View, Modal, StyleSheet, TouchableWithoutFeedback, TouchableOpacity, TextInput } from 'react-native'
 
 import CommonStyles from '../commonStyles'
 
@@ -15,6 +15,15 @@ export default class AddTaks extends Component {
                 </TouchableWithoutFeedback>
                 <View style={styles.container}>
                     <Text style={styles.header}>Nova Tarefa</Text>
+                    <TextInput style={styles.input} />
+                    <View style={styles.buttons}>
+                        <TouchableOpacity>
+                            <Text style={styles.button}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Text style={styles.button}>Salvar</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <TouchableWithoutFeedback onPress={this.props.onCancel}>
                     <View style={styles.background}>
@@ -42,5 +51,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 15,
         fontSize: 18,
+    },
+    buttons: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+    },
+    input: {
+
+    },
+    button: {
+        margin: 20,
+        marginRight: 30,
+        color: CommonStyles.color.today,
     }
 })
