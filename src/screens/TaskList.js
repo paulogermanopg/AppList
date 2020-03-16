@@ -16,7 +16,7 @@ export default class TaskList extends Component {
     //Usar font personalizada no expo = importar import * as Font from 'expo-font'
     state = {
         showDoneTasks: true,
-        showAddTask: true,
+        showAddTask: false,
         visibleeTask: [],
         tasks: [{
             id: Math.random(),
@@ -100,7 +100,10 @@ export default class TaskList extends Component {
                         keyExtractor={item => `${item.id}`}
                         renderItem={({item}) => <Task {...item} toggleTask={this.toggleTask} />} />
                 </View>
-
+                <TouchableOpacity style={styles.addButton} onPress={() => this.setState({ showAddTask: true })}
+                    activeOpacity={0.7} >
+                    <Icon name="plus" size={20} color={CommonStyles.color.secondary} />
+                </TouchableOpacity>
             </View>
         )
     }
@@ -139,5 +142,16 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         justifyContent: 'flex-end',
         marginTop: Platform.OS === 'ios' ? 40 : 40,
+    },
+    addButton: {
+        position: 'absolute',
+        right: 30,
+        bottom: 30,
+        height: 50,
+        width: 50,
+        borderRadius: 25,
+        backgroundColor: CommonStyles.color.today,
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 })
