@@ -7,28 +7,23 @@ import * as Font from 'expo-font'
 import todayImage from '../../assets/imgs/today.jpg'
 import AddTask from './AddTask'
 
+import {AsyncStorage} from 'react-native';
 import moment from 'moment'
 import 'moment/locale/pt-br'
 
 import Icon from 'react-native-vector-icons/FontAwesome'
 
+const initialState = {
+    showDoneTasks: true,
+    showAddTask: false,
+    visibleeTask: [],
+    tasks: [],
+}
+
 export default class TaskList extends Component {
     //Usar font personalizada no expo = importar import * as Font from 'expo-font'
     state = {
-        showDoneTasks: true,
-        showAddTask: false,
-        visibleeTask: [],
-        tasks: [{
-            id: Math.random(),
-            desc: 'compra um livro',
-            estimateAt: new Date(),
-            doneAt: new Date(),
-        }, {
-            id: Math.random(),
-            desc: 'ler um livro',
-            estimateAt: new Date(),
-            doneAt: null,
-        }, ],
+        ...initialState,
         loading: true
     }
     async componentDidMount() {
@@ -36,7 +31,10 @@ export default class TaskList extends Component {
           'Lato': require('../../assets/fonts/TravelingTypewriter.ttf'),
         })
         this.setState({ loading: false })
-        this.filterTasks()
+        // isso aqui em baixo é do projeto mesmo
+        const stateString = await AsyncStorage.getItem('tasksState')
+        const state = JSON.parse(stateString) || initialState
+        this.setState(state, this.filterTasks)
     }
     //acaba aqui
 
@@ -58,6 +56,7 @@ export default class TaskList extends Component {
         }
 
         this.setState({ visibleeTask })
+        AsyncStorage.setItem('tasksState', JSON.stringify(this.state))
     }
 
     toggleTask = taskId => {
@@ -88,6 +87,11 @@ export default class TaskList extends Component {
         this.setState({ tasks, showAddTask: false }, this.filterTasks)
     }
 
+    deleteTask = id => {
+        const tasks = this.state.tasks.filter(task => task.id != id)
+        this.setState({ tasks }, this.filterTasks)
+    }
+
     render() {
         //isso também
         if (this.state.loading) {
@@ -116,7 +120,8 @@ export default class TaskList extends Component {
                 <View style={styles.taskList}>
                     <FlatList data={this.state.visibleeTask}
                         keyExtractor={item => `${item.id}`}
-                        renderItem={({item}) => <Task {...item} toggleTask={this.toggleTask} />} />
+                        renderItem={({item}) => <Task {...item} onToggleTask={this.toggleTask}
+                        onDelete={this.deleteTask} />} />
                 </View>
                 <TouchableOpacity style={styles.addButton} onPress={() => this.setState({ showAddTask: true })}
                     activeOpacity={0.7} >
