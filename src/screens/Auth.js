@@ -10,8 +10,11 @@ import * as Font from 'expo-font'
 export default class Auth extends Component {
     //font ara expo
     state = {
+        name: '',
         email: '',
         password: '',
+        confirmPassword: '',
+        stageNew: true,
         loading: true
     }
     async componentDidMount() {
@@ -34,13 +37,26 @@ export default class Auth extends Component {
             <ImageBackground source={backgroundImage} style={styles.background}>
                 <Text style={styles.title}>App-List</Text>
                 <View style={styles.formContainer}>
+                    <Text style={styles.subtitle}>
+                        {this.state.stageNew ? 'Crie uma conta' :  'Informe seus dados'}
+                    </Text>
+                    {this.state.stageNew &&
+                         <TextInput placeholder='Nome' value={this.state.name} style={styles.input} 
+                            onChangeText={name => this.setState( name )} />
+                    }
                     <TextInput placeholder='Email' value={this.state.email} style={styles.input} 
                         onChangeText={email => this.setState( email )} />
                     <TextInput placeholder='Senha' value={this.state.password} style={styles.input} 
-                        onChangeText={password => this.setState( password )} />
+                        onChangeText={password => this.setState( password )}  secureTextEntry={true} />
+                    {this.state.stageNew &&
+                         <TextInput placeholder='Confirme a senha' value={this.state.confirmPassword} style={styles.input} 
+                            onChangeText={confirmPassword => this.setState( confirmPassword )}  secureTextEntry={true} />
+                    }
                     <TouchableOpacity>
                         <View style={styles.button}>
-                            <Text style={styles.buttonText}>Entrar</Text>
+                            <Text style={styles.buttonText}>
+                                {this.state.stageNew ? 'Registrar' : 'Entrar'} 
+                            </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -83,5 +99,12 @@ const styles = StyleSheet.create({
         fontFamily: CommonStyles.fontfamily,
         color: '#FFF',
         fontSize: 20,
+    },
+    subtitle: {
+        fontFamily: CommonStyles.fontfamily,
+        color: '#FFF',
+        fontSize: 20,
+        textAlign: 'center',
+        marginBottom: 10,
     },
 })
