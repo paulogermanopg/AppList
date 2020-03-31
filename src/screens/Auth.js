@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native'
 
 import backgroundImage from '../../assets/imgs/login.jpg'
 import CommonStyles from '../commonStyles'
@@ -14,7 +14,7 @@ export default class Auth extends Component {
         email: '',
         password: '',
         confirmPassword: '',
-        stageNew: true,
+        stageNew: false,
         loading: true
     }
     async componentDidMount() {
@@ -24,6 +24,14 @@ export default class Auth extends Component {
         this.setState({ loading: false })
     }
     //acaba aqui
+
+    signinOrSigup = () => {
+        if (this.state.stageNew) {
+            Alert.alert('Sucesso!', "Criar conta")
+        } else {
+            Alert.alert('Sucesso!', "Logar")
+        }
+    }
 
     render() {
         //isso também
@@ -52,7 +60,7 @@ export default class Auth extends Component {
                          <TextInput placeholder='Confirme a senha' value={this.state.confirmPassword} style={styles.input} 
                             onChangeText={confirmPassword => this.setState( confirmPassword )}  secureTextEntry={true} />
                     }
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.signinOrSigup}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>
                                 {this.state.stageNew ? 'Registrar' : 'Entrar'} 
@@ -60,6 +68,14 @@ export default class Auth extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
+                <TouchableOpacity style={{ padding: 10 }} 
+                    onPress={
+                        () => this.setState({ stageNew: !this.state.stageNew })
+                    } >
+                    <Text style={styles.buttonText}>
+                        {this.state.stageNew ? 'Já Possui conta?' : 'Ainda não possui uma conta?'}
+                    </Text>
+                </TouchableOpacity>
             </ImageBackground>
         )
     }
