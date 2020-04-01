@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 
 import backgroundImage from '../../assets/imgs/login.jpg'
 import CommonStyles from '../commonStyles'
+import AuthInput from '../components/AuthInput'
 
 import * as Font from 'expo-font'
 
@@ -49,15 +50,19 @@ export default class Auth extends Component {
                         {this.state.stageNew ? 'Crie uma conta' :  'Informe seus dados'}
                     </Text>
                     {this.state.stageNew &&
-                         <TextInput placeholder='Nome' value={this.state.name} style={styles.input} 
+                         <AuthInput icon='user' placeholder='Nome' value={this.state.name} style={styles.input} 
                             onChangeText={name => this.setState( name )} />
                     }
-                    <TextInput placeholder='Email' value={this.state.email} style={styles.input} 
+                    <AuthInput icon='at' placeholder='Email' value={this.state.email} style={styles.input} 
                         onChangeText={email => this.setState( email )} />
-                    <TextInput placeholder='Senha' value={this.state.password} style={styles.input} 
+                    <AuthInput icon='lock' 
+                        placeholder='Senha' value={this.state.password} 
+                        style={styles.input} 
                         onChangeText={password => this.setState( password )}  secureTextEntry={true} />
                     {this.state.stageNew &&
-                         <TextInput placeholder='Confirme a senha' value={this.state.confirmPassword} style={styles.input} 
+                         <AuthInput icon='asterisk' 
+                            placeholder='Confirme a senha' 
+                            value={this.state.confirmPassword} style={styles.input} 
                             onChangeText={confirmPassword => this.setState( confirmPassword )}  secureTextEntry={true} />
                     }
                     <TouchableOpacity onPress={this.signinOrSigup}>
@@ -102,7 +107,6 @@ const styles = StyleSheet.create({
     input: {
         marginTop: 10,
         backgroundColor: '#FFF',
-        padding: 12,
     },
     button: {
         backgroundColor: '#080',
@@ -110,6 +114,7 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: 7,
     },
     buttonText: {
         fontFamily: CommonStyles.fontfamily,
